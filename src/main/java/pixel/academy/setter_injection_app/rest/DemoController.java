@@ -12,11 +12,15 @@ import pixel.academy.setter_injection_app.common.Chef;
 public class DemoController {
 
     private Chef myChef;
+    private Chef secondChef;
 
     //constructor
     @Autowired
-    public DemoController(@Qualifier("turkishChef") Chef theChef) {
+    public DemoController(@Qualifier("turkishChef") Chef theChef,
+                          @Qualifier("turkishChef") Chef theSecondChef ) {
+        System.out.println("In constructor: " + getClass().getSimpleName());
         myChef = theChef;
+        secondChef = theSecondChef;
     }
 
     //setter injection
@@ -29,5 +33,9 @@ public class DemoController {
     @GetMapping("/dailyrecipe")
     public  String getDailyRecipe() {
         return myChef.getDailyRecipe();
+    }
+    @GetMapping("/check")
+    public String check() {
+        return "Comparing beans:myChef == secondChef, " + (myChef == secondChef);
     }
 }
